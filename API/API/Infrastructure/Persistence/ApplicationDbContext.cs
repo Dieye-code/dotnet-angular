@@ -13,25 +13,26 @@ public class ApplicationDbContext : DbContext
     {
         _dateTime = dateTime;
     }
-
-    public async Task<int> SaveChangeAsync(CancellationToken cancellationToken = new CancellationToken())
+    public override Task<int> SaveChangesAsync(bool acceptAllChangesSuccess, CancellationToken cancellationToken = default(CancellationToken))
     {
-        foreach (EntityEntry<EntityBase> entry in ChangeTracker.Entries<EntityBase>())
+        var entries = ChangeTracker.Entries().Where(e => e.State == EntityState.Added || e.State == EntityState.Modified).ToList();
+
+        foreach (var entry in entries)
         {
-            switch (entry.State)
+            if(entry.State == EntityState.Added)
             {
-                case EntityState.Added:
-                    entry.Entity.CreatedAt = _dateTime.Now;
-                    break;
-                case EntityState.Modified:
-                    entry.Entity.UpdatedAt = _dateTime.Now;
-                    break;
+                entry.Property("CreatedAt").CurrentValue = _dateTime.Now;
+                entry.Property("UpdatedAt").CurrentValue = _dateTime.Now;
+            } else
+            {
+                if(entry.State == EntityState.Modified)
+                {
+                    entry.Property("UpdatedAt").CurrentValue = _dateTime.Now;
+                }
             }
         }
 
-        var result = await base.SaveChangesAsync(cancellationToken);
-
-        return result;
+        return base.SaveChangesAsync(acceptAllChangesSuccess, cancellationToken);
     }
 
 

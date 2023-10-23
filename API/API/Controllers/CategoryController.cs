@@ -1,4 +1,5 @@
-﻿using API.Application.Features.Categories.Queries;
+﻿using API.Application.Features.Categories.Commands;
+using API.Application.Features.Categories.Queries;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
@@ -13,5 +14,12 @@ public class CategoryController : ApiControllerBase
     {
         var categories = await Mediator.Send(new GetCategoryQuery());
         return Ok(categories);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> save([FromBody] CreateCategoryCommand command)
+    {
+        var category = await Mediator.Send(command);
+        return Ok(category);
     }
 }
