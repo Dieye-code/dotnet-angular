@@ -15,7 +15,7 @@ public class ApplicationDbContext : DbContext
     }
     public override Task<int> SaveChangesAsync(bool acceptAllChangesSuccess, CancellationToken cancellationToken = default(CancellationToken))
     {
-        var entries = ChangeTracker.Entries().Where(e => e.State == EntityState.Added || e.State == EntityState.Modified).ToList();
+        var entries = ChangeTracker.Entries().Where(e => e.State == EntityState.Added || e.State == EntityState.Modified || e.State == EntityState.Deleted).ToList();
 
         foreach (var entry in entries)
         {
@@ -28,11 +28,21 @@ public class ApplicationDbContext : DbContext
                 if(entry.State == EntityState.Modified)
                 {
                     entry.Property("UpdatedAt").CurrentValue = _dateTime.Now;
+                } else
+                {
+                    entry.State = EntityState.Modified;
+                    entry.Property("DeletedAt").CurrentValue = _dateTime.Now;
+                    entry.Property("IsDeleted").CurrentValue = true;
                 }
             }
         }
 
         return base.SaveChangesAsync(acceptAllChangesSuccess, cancellationToken);
+    }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Category>().HasQueryFilter(c => !c.IsDeleted);
     }
 
 

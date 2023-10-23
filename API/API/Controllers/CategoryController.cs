@@ -30,4 +30,11 @@ public class CategoryController : ApiControllerBase
         return Ok(category);
     }
 
+    [HttpDelete("{id:guid}")]
+    public async Task<IActionResult> Delete(Guid id)
+    {
+        var categoryId = await Mediator.Send(new DeleteCategoryCommand() { Id = id});
+        return Ok(categoryId);
+    }
+
 }
