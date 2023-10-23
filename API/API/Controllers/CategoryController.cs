@@ -17,9 +17,17 @@ public class CategoryController : ApiControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> save([FromBody] CreateCategoryCommand command)
+    public async Task<IActionResult> Save([FromBody] CreateCategoryCommand command)
     {
         var category = await Mediator.Send(command);
         return Ok(category);
     }
+
+    [HttpPut]
+    public async Task<IActionResult> Update([FromBody] UpdateCategoryCommand command)
+    {
+        var category = await Mediator.Send(command);
+        return Ok(category);
+    }
+
 }
