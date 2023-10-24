@@ -4,4 +4,5 @@ namespace API.Application.Repositories;
 
 public interface ISaleProductRepository : IBaseRepository<SaleProduct>
 {
+    Task<List<SaleProduct>> GetSaleProductDeleted(CancellationToken cancellationToken);
 }

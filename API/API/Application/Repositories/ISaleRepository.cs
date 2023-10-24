@@ -1,6 +1,8 @@
-﻿namespace API.Application.Repositories
+﻿using API.Domain.Entities;
+
+namespace API.Application.Repositories;
+
+public interface ISaleRepository : IBaseRepository<Sale>
 {
-    public class ISaleRepository
-    {
-    }
+    Task<List<Sale>> GetSaleDeleted(CancellationToken cancellationToken);
 }
