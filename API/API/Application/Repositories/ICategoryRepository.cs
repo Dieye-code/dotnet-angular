@@ -4,5 +4,5 @@ namespace API.Application.Repositories;
 
 public interface ICategoryRepository : IBaseRepository<Category>
 {
-    Task<List<Category>> GetCategoryDeleted();
+    Task<List<Category>> GetCategoryDeleted(CancellationToken cancellationToken);
 }
