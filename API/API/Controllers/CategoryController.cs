@@ -16,6 +16,13 @@ public class CategoryController : ApiControllerBase
         return Ok(categories);
     }
 
+    [HttpGet("{id:guid}")]
+    public async Task<IActionResult> Find(Guid id)
+    {
+        var category = await Mediator.Send(new FindCategoryQuery() { Id = id});
+        return Ok(category);
+    }
+
     [HttpPost]
     public async Task<IActionResult> Save([FromBody] CreateCategoryCommand command)
     {
