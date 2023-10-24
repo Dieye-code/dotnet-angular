@@ -67,7 +67,7 @@ app.UseStaticFiles(new StaticFileOptions()
 {
     FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "@Ressources")),
     RequestPath = new PathString("/ressources")
-});;
+});
 
 app.MapControllers();
 
