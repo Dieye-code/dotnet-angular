@@ -1,4 +1,5 @@
-﻿using API.Application.Repositories;
+﻿using API.Application.Exceptions;
+using API.Application.Repositories;
 using API.Models;
 using MediatR;
 
@@ -20,6 +21,10 @@ public class FindcategoryQueryHandler : IRequestHandler<FindCategoryQuery, Categ
     public async Task<CategoryDto> Handle(FindCategoryQuery request, CancellationToken cancellationToken)
     {
         var category = await _categoryRepository.Get(request.Id, cancellationToken);
+        if(category == null)
+        {
+            throw new NotFoundException($"la category n'existe pas dans la base de données");
+        }
         return category.ProjectToCategoryDto();
     }
 }

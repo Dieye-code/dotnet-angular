@@ -1,3 +1,4 @@
+using API.Application.middlewares;
 using API.Application.Repositories;
 using API.Infrastructure.Persistence;
 using API.Infrastructure.Repositories;
@@ -23,6 +24,8 @@ builder.Services.AddControllers()
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddTransient<ExceptionMiddleware> ();
+
 builder.Services.AddMediatR(cf => cf.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));
 builder.Services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
@@ -43,6 +46,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseGlobalExceptionHandler();
 
 app.UseHttpsRedirection();
 
