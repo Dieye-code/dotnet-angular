@@ -14,5 +14,5 @@ public class OrderProduct : EntityBase
     public virtual Order Order { get; set; } = new Order();
 
     [ForeignKey(nameof(ProductId))]
-    public virtual Product Product { get; set; }
+    public virtual Product Product { get; set; } = new Product();
 }
