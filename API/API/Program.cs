@@ -1,3 +1,4 @@
+using API.Application.Common;
 using API.Application.middlewares;
 using API.Application.Repositories;
 using API.Infrastructure.Persistence;
@@ -39,7 +40,10 @@ builder.Services.AddScoped<IOrderProductRepository, OrderProductRepository>();
 builder.Services.AddScoped<ISaleRepository, SaleRepository>();
 builder.Services.AddScoped<ISaleProductRepository, SaleProductRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<DateTimeService>();
+
+builder.Services.AddTransient<IFileService, FileService>();
+
+builder.Services.AddSingleton<DateTimeService>();
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
@@ -71,8 +75,8 @@ app.UseAuthorization();
 app.UseStaticFiles();
 app.UseStaticFiles(new StaticFileOptions()
 {
-    FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "@Ressources")),
-    RequestPath = new PathString("/ressources")
+    FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "Ressources")),
+    RequestPath = new PathString("/ressources/Images")
 });
 
 app.MapControllers();
