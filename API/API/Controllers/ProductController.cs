@@ -1,4 +1,5 @@
 ﻿using API.Application.Features.Products.Commands;
+using API.Application.Features.Products.Queries;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,6 +9,13 @@ namespace API.Controllers
     [ApiController]
     public class ProductController : ApiControllerBase
     {
+
+        [HttpGet]
+        public async Task<IActionResult> Index()
+        {
+            var products = await Mediator.Send(new GetProductQuery());
+            return Ok(products);
+        }
 
         [HttpPost]
         public async Task<IActionResult> Create(Guid categoryId, string libelle, string description, int price, double quantity, IFormFile file)

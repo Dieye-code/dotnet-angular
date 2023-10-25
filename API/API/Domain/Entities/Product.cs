@@ -11,8 +11,7 @@ public class Product : EntityBase
     public double Quantity { get; set; }
 
     public Guid CategoryId { get; set; }
-
-    [ForeignKey(nameof(CategoryId))]
+    [ForeignKey("CategoryId")]
     public virtual Category Category { get; set; } = new Category();
 
 }

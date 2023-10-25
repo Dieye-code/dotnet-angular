@@ -1,6 +1,6 @@
 ﻿namespace API.Domain.Entities
 {
-    public abstract class EntityBase
+    public  class EntityBase
     {
         public Guid Id { get; set; }
         public DateTime? CreatedAt { get; set; }

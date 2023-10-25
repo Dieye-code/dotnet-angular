@@ -11,6 +11,11 @@ namespace API.Infrastructure.Repositories
         {
         }
 
+        public override async Task<List<Product>> GetAll(CancellationToken cancellationToken)
+        {
+            return await _context.Products.Include("Category").ToListAsync(cancellationToken);
+        }
+
         public Task<List<Product>> GetProductDeleted(CancellationToken cancellationToken)
         {
             return _context.Products.IgnoreQueryFilters().Where(c => c.IsDeleted).ToListAsync(cancellationToken);

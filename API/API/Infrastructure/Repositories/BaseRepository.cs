@@ -29,7 +29,7 @@ public class BaseRepository<T> : IBaseRepository<T> where T : EntityBase
         return _context.Set<T>().FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
     }
 
-    public Task<List<T>> GetAll(CancellationToken cancellationToken)
+    public virtual  Task<List<T>> GetAll(CancellationToken cancellationToken)
     {
         return _context.Set<T>().ToListAsync(cancellationToken);
     }

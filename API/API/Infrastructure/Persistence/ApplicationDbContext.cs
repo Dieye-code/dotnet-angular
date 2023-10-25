@@ -42,8 +42,11 @@ public class ApplicationDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+
+        //modelBuilder.Entity<Product>().HasQueryFilter(c => !c.IsDeleted).HasOne(e => e.Category).WithMany().HasForeignKey("CategoryId").IsRequired(true);
+        modelBuilder.Entity<Product>().HasQueryFilter(c => !c.IsDeleted).HasOne(e => e.Category).WithMany().HasForeignKey("CategoryId").IsRequired(true);
+
         modelBuilder.Entity<Category>().HasQueryFilter(c => !c.IsDeleted);
-        modelBuilder.Entity<Product>().HasQueryFilter(c => !c.IsDeleted);
         modelBuilder.Entity<Order>().HasQueryFilter(c => !c.IsDeleted);
         modelBuilder.Entity<OrderProduct>().HasQueryFilter(c => !c.IsDeleted);
         modelBuilder.Entity<Sale>().HasQueryFilter(c => !c.IsDeleted);
