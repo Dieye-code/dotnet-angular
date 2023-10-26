@@ -1,6 +1,8 @@
 ﻿using API.Application.Features.Categories.Commands;
 using API.Application.Features.Categories.Queries;
+using API.Domain.Common;
 using Microsoft.AspNetCore.Mvc;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace API.Controllers;
 
@@ -33,15 +35,23 @@ public class CategoryController : ApiControllerBase
     [HttpPut]
     public async Task<IActionResult> Update([FromBody] UpdateCategoryCommand command)
     {
-        var category = await Mediator.Send(command);
-        return Ok(category);
+        var result = await Mediator.Send(command);
+        if(result.Value.GetType() == typeof(Error))
+        {
+            return BadRequest(result.Value);
+        }
+        return Ok(result.Value);
     }
 
     [HttpDelete("{id:guid}")]
     public async Task<IActionResult> Delete(Guid id)
     {
-        var categoryId = await Mediator.Send(new DeleteCategoryCommand() { Id = id});
-        return Ok(categoryId);
+        var result = await Mediator.Send(new DeleteCategoryCommand() { Id = id });
+        if (result.Value.GetType() == typeof(Error))
+        {
+            return BadRequest(result.Value);
+        }
+        return Ok(result.Value);
     }
 
 }

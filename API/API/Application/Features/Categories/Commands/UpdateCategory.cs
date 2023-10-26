@@ -1,12 +1,14 @@
 ﻿using API.Application.Repositories;
+using API.Domain.Common;
 using API.Domain.Entities;
 using API.Models;
+using CSharpFunctionalExtensions;
 using FluentValidation;
 using MediatR;
 
 namespace API.Application.Features.Categories.Commands;
 
-public class UpdateCategoryCommand : IRequest<CategoryDto>
+public class UpdateCategoryCommand : IRequest<Result<object>>
 {
     public Guid Id { get; set; }
     public string Libelle { get; set; }
@@ -21,7 +23,7 @@ public class UpdateCategoryValidator : AbstractValidator<UpdateCategoryCommand>
     }
 }
 
-public class UpdateCategoryCommandHandler : IRequestHandler<UpdateCategoryCommand, CategoryDto>
+public class UpdateCategoryCommandHandler : IRequestHandler<UpdateCategoryCommand, Result<object>>
 {
     public readonly ICategoryRepository _categoryrepository;
     public readonly IUnitOfWork _unitOfWork;
@@ -31,16 +33,17 @@ public class UpdateCategoryCommandHandler : IRequestHandler<UpdateCategoryComman
         _categoryrepository = categoryrepository;
         _unitOfWork = unitOfWork;
     }
-    public async Task<CategoryDto> Handle(UpdateCategoryCommand request, CancellationToken cancellationToken)
+    public async Task<Result<object>> Handle(UpdateCategoryCommand request, CancellationToken cancellationToken)
     {
         var category = await _categoryrepository.Get(request.Id, cancellationToken);
-        if(category != null)
+        if (category == null)
         {
-            category.Id = request.Id;
-            category.Libelle = request.Libelle;
-            _categoryrepository.Update(category);
-            await _unitOfWork.Save(cancellationToken);
+            return Errors.General.NotFound(nameof(Category), request.Id);
         }
+        category.Id = request.Id;
+        category.Libelle = request.Libelle;
+        _categoryrepository.Update(category);
+        await _unitOfWork.Save(cancellationToken);
         return category.ProjectToCategoryDto();
     }
 }
