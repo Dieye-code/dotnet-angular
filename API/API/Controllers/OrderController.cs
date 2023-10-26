@@ -1,5 +1,6 @@
 ﻿using API.Application.Features.Orders.Command;
 using API.Application.Features.Orders.Queries;
+using API.Domain.Common;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,6 +16,17 @@ namespace API.Controllers
         {
             var orders = await Mediator.Send(new GetOrderQuey());
             return Ok(orders);
+        }
+
+        [HttpGet("{id:guid}")]
+        public async Task<IActionResult> Find(Guid id)
+        {
+            var result = await Mediator.Send(new FindOrderQuery() { Id = id });
+            if(result.GetType() == typeof(Error))
+            {
+                return NotFound(result.Value);
+            }
+            return Ok(result.Value);
         }
 
         [HttpPost]
