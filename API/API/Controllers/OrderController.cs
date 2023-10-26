@@ -1,4 +1,5 @@
 ﻿using API.Application.Features.Orders.Command;
+using API.Application.Features.Orders.Queries;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,6 +9,13 @@ namespace API.Controllers
     [ApiController]
     public class OrderController : ApiControllerBase
     {
+
+        [HttpGet]
+        public async Task<IActionResult> Index()
+        {
+            var orders = await Mediator.Send(new GetOrderQuey());
+            return Ok(orders);
+        }
 
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateOrderCommand command)
