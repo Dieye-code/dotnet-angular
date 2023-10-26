@@ -1,6 +1,6 @@
 ﻿using API.Application.Features.Products.Commands;
 using API.Application.Features.Products.Queries;
-using Microsoft.AspNetCore.Http;
+using API.Domain.Common;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -20,8 +20,12 @@ namespace API.Controllers
         [HttpGet("{id:guid}")]
         public async Task<IActionResult> Get(Guid id)
         {
-            var product = Mediator.Send(new FindProductQuery() { Id = id});
-            return Ok(product);
+            var result = await Mediator.Send(new FindProductQuery() { Id = id});
+            if (result.Value.GetType() == typeof(Error) && (Error)result.Value == Errors.General.NotFound(null, null))
+            {
+                return NotFound(((Error)result.Value).Message);
+            }
+            return Ok(result.Value);
         }
 
         [HttpPost]

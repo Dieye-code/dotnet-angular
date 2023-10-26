@@ -83,3 +83,4 @@ C:\Users\moust\Documents\dot-angular\API\API\obj\Debug\net7.0\refint\API.dll
 C:\Users\moust\Documents\dot-angular\API\API\obj\Debug\net7.0\API.pdb
 C:\Users\moust\Documents\dot-angular\API\API\obj\Debug\net7.0\API.genruntimeconfig.cache
 C:\Users\moust\Documents\dot-angular\API\API\obj\Debug\net7.0\ref\API.dll
+C:\Users\moust\Documents\dot-angular\API\API\bin\Debug\net7.0\CSharpFunctionalExtensions.dll

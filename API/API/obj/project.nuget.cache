@@ -1,11 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "izbKuL94bBl4jN+NbYv66HmXIWJ86SXyP2cp3qT8/7s0R3TdFMLBNqC3KIhS3I4oMrUK5dQx0U03+8NOfllQmQ==",
+  "dgSpecHash": "/5P/wbZr/vp6UtYihJ7wc8Bxz1HVvf3E8MYlBM/y1xJx+sedOZQZ/aJpAXIQAfhw7zigROQn0Oj/iSeYs91lRQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\moust\\Documents\\dot-angular\\API\\API\\API.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\moust\\.nuget\\packages\\azure.core\\1.25.0\\azure.core.1.25.0.nupkg.sha512",
     "C:\\Users\\moust\\.nuget\\packages\\azure.identity\\1.7.0\\azure.identity.1.7.0.nupkg.sha512",
+    "C:\\Users\\moust\\.nuget\\packages\\csharpfunctionalextensions\\2.40.3\\csharpfunctionalextensions.2.40.3.nupkg.sha512",
     "C:\\Users\\moust\\.nuget\\packages\\fluentvalidation\\11.5.1\\fluentvalidation.11.5.1.nupkg.sha512",
     "C:\\Users\\moust\\.nuget\\packages\\fluentvalidation.aspnetcore\\11.3.0\\fluentvalidation.aspnetcore.11.3.0.nupkg.sha512",
     "C:\\Users\\moust\\.nuget\\packages\\fluentvalidation.dependencyinjectionextensions\\11.5.1\\fluentvalidation.dependencyinjectionextensions.11.5.1.nupkg.sha512",
