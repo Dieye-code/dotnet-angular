@@ -31,15 +31,23 @@ namespace API.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(Guid categoryId, string libelle, string description, int price, double quantity, IFormFile file)
         {
-            var product = await Mediator.Send(new CreateProductCommand() { CategoryId = categoryId, Libelle = libelle, Description = description, Price = price, Quantity = quantity, File = file });
-            return Ok(product);
+            var result = await Mediator.Send(new CreateProductCommand() { CategoryId = categoryId, Libelle = libelle, Description = description, Price = price, Quantity = quantity, File = file });
+            if (result.Value.GetType() == typeof(Error))
+            {
+                    return NotFound(result.Value);
+            }
+            return Ok(result.Value);
         }
 
         [HttpPut]
         public async Task<IActionResult> Update([FromBody] UpdateProductCommand command)
         {
-            var product = await Mediator.Send(command);
-            return Ok(product);
+            var result = await Mediator.Send(command);
+            if (result.Value.GetType() == typeof(Error))
+            {
+                return NotFound(result.Value);
+            }
+            return Ok(result.Value);
         }
 
     }

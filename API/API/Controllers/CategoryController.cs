@@ -21,8 +21,14 @@ public class CategoryController : ApiControllerBase
     [HttpGet("{id:guid}")]
     public async Task<IActionResult> Find(Guid id)
     {
-        var category = await Mediator.Send(new FindCategoryQuery() { Id = id});
-        return Ok(category);
+        var result = await Mediator.Send(new FindCategoryQuery() { Id = id});
+
+        if(result.GetType() == typeof(Error))
+        {
+            return NotFound(result.Value);
+        }
+
+        return Ok(result.Value);
     }
 
     [HttpPost]
@@ -51,7 +57,7 @@ public class CategoryController : ApiControllerBase
         {
             return BadRequest(result.Value);
         }
-        return Ok(result.Value);
+        return NoContent();
     }
 
 }

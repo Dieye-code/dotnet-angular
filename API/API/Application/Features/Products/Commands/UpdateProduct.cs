@@ -1,11 +1,14 @@
 ﻿using API.Application.Repositories;
+using API.Domain.Common;
+using API.Domain.Entities;
 using API.Models;
+using CSharpFunctionalExtensions;
 using FluentValidation;
 using MediatR;
 
 namespace API.Application.Features.Products.Commands;
 
-public class UpdateProductCommand : IRequest<ProductDto>
+public class UpdateProductCommand : IRequest<Result<object>>
 {
     public Guid Id { get; set; }
     public Guid CategoryId { get; set; }
@@ -29,7 +32,7 @@ public class UpdateProductvalidation : AbstractValidator<UpdateProductCommand>
     }
 }
 
-public class UpdateProductCommandHandler : IRequestHandler<UpdateProductCommand, ProductDto>
+public class UpdateProductCommandHandler : IRequestHandler<UpdateProductCommand, Result<object>>
 {
     private readonly IProductRepository _productRepository;
     private readonly ICategoryRepository _categoryRepository;
@@ -41,11 +44,19 @@ public class UpdateProductCommandHandler : IRequestHandler<UpdateProductCommand,
         _categoryRepository = categoryRepository;
         _unitOfWork = unitOfWork;
     }
-    public async Task<ProductDto> Handle(UpdateProductCommand request, CancellationToken cancellationToken)
+    public async Task<Result<object>> Handle(UpdateProductCommand request, CancellationToken cancellationToken)
     {
         var category = await _categoryRepository.Get(request.CategoryId, cancellationToken);
+        if(category == null)
+        {
+            return Errors.General.NotFound(nameof(Category), request.CategoryId);
+        }
 
         var product = await _productRepository.Get(request.Id, cancellationToken);
+        if(product == null)
+        {
+            return Errors.General.NotFound(nameof(Product), request.Id);
+        }
 
         if(product != null)
         {

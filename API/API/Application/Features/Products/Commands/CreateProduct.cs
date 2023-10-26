@@ -1,13 +1,15 @@
 ﻿using API.Application.Common;
 using API.Application.Repositories;
+using API.Domain.Common;
 using API.Domain.Entities;
 using API.Models;
+using CSharpFunctionalExtensions;
 using FluentValidation;
 using MediatR;
 
 namespace API.Application.Features.Products.Commands;
 
-public class CreateProductCommand : IRequest<ProductDto>
+public class CreateProductCommand : IRequest<Result<object>>
 {
     public Guid CategoryId { get; set; }
     public string Libelle { get; set; }
@@ -39,7 +41,7 @@ public class CreateProductValidation : AbstractValidator<CreateProductCommand>
 }
 
 
-public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand, ProductDto>
+public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand, Result<object>>
 {
     private readonly IProductRepository _productRepository;
     private readonly IFileService _fileService;
@@ -53,8 +55,13 @@ public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand,
         _unitOfWork = unitOfWork;
         _categoryRepository = categoryRepository;
     }
-    public async Task<ProductDto> Handle(CreateProductCommand request, CancellationToken cancellationToken)
+    public async Task<Result<object>> Handle(CreateProductCommand request, CancellationToken cancellationToken)
     {
+        var category = await _categoryRepository.Get(request.CategoryId, cancellationToken);
+        if(category == null)
+        {
+            return Errors.General.NotFound(nameof(Category), request.CategoryId);
+        }
         var fileName = await _fileService.UploadFile(request.File);
         var product = new Product()
         {
@@ -66,7 +73,6 @@ public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand,
             Quantity = request.Quantity,
         };
 
-        var category = await _categoryRepository.Get(request.CategoryId, cancellationToken);
         product.Category = category;
 
         _productRepository.Create(product);

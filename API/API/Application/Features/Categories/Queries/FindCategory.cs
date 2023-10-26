@@ -1,6 +1,7 @@
 ﻿using API.Application.Exceptions;
 using API.Application.Repositories;
 using API.Domain.Common;
+using API.Domain.Entities;
 using API.Models;
 using CSharpFunctionalExtensions;
 using MediatR;
@@ -25,7 +26,7 @@ public class FindcategoryQueryHandler : IRequestHandler<FindCategoryQuery, Resul
         var category = await _categoryRepository.Get(request.Id, cancellationToken);
         if(category == null)
         {
-            return Errors.General.NotFound(nameof(category), request.Id);
+            return Errors.General.NotFound(nameof(Category), request.Id);
         }
         return Result.Success(category.ProjectToCategoryDto());
     }
