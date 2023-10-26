@@ -24,7 +24,7 @@ public class BaseRepository<T> : IBaseRepository<T> where T : EntityBase
         _context.Remove(entity);
     }
 
-    public Task<T> Get(Guid id, CancellationToken cancellationToken)
+    public virtual Task<T> Get(Guid id, CancellationToken cancellationToken)
     {
         return _context.Set<T>().FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
     }

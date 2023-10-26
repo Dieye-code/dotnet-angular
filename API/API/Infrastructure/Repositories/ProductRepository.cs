@@ -20,5 +20,11 @@ namespace API.Infrastructure.Repositories
         {
             return _context.Products.IgnoreQueryFilters().Where(c => c.IsDeleted).ToListAsync(cancellationToken);
         }
+
+        public async override Task<Product> Get(Guid id, CancellationToken cancellationToken)
+        {
+            return await _context.Products.Where(p => p.Id == id).FirstOrDefaultAsync(cancellationToken);
+        }
+
     }
 }
