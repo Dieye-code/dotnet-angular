@@ -19,7 +19,8 @@ public class ApplicationDbContext : DbContext
 
         foreach (var entry in entries)
         {
-            if(entry.State == EntityState.Added)
+
+            if (entry.State == EntityState.Added)
             {
                 entry.Property("CreatedAt").CurrentValue = _dateTime.Now;
                 entry.Property("UpdatedAt").CurrentValue = _dateTime.Now;
@@ -30,9 +31,12 @@ public class ApplicationDbContext : DbContext
                     entry.Property("UpdatedAt").CurrentValue = _dateTime.Now;
                 } else
                 {
-                    entry.State = EntityState.Modified;
-                    entry.Property("DeletedAt").CurrentValue = _dateTime.Now;
-                    entry.Property("IsDeleted").CurrentValue = true;
+                    if (entry.GetType() != typeof(OrderProduct) && entry.GetType() != typeof(SaleProduct))
+                    {
+                        entry.State = EntityState.Modified;
+                        entry.Property("DeletedAt").CurrentValue = _dateTime.Now;
+                        entry.Property("IsDeleted").CurrentValue = true;
+                    }
                 }
             }
         }
