@@ -17,6 +17,7 @@ namespace API.Controllers
             return Ok(products);
         }
 
+
         [HttpGet("{id:guid}")]
         public async Task<IActionResult> Get(Guid id)
         {
@@ -27,6 +28,7 @@ namespace API.Controllers
             }
             return Ok(result.Value);
         }
+
 
         [HttpPost]
         public async Task<IActionResult> Create(Guid categoryId, string libelle, string description, int price, double quantity, IFormFile file)
@@ -39,6 +41,7 @@ namespace API.Controllers
             return Ok(result.Value);
         }
 
+
         [HttpPut]
         public async Task<IActionResult> Update([FromBody] UpdateProductCommand command)
         {
@@ -50,5 +53,15 @@ namespace API.Controllers
             return Ok(result.Value);
         }
 
+        [HttpDelete("id:guid")]
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            var result = await Mediator.Send(new DeleteProductCommand() { Id = id });
+            if(result.GetType() == typeof(Error))
+            {
+                return BadRequest(result.Value);
+            }
+            return NoContent();
+        }
     }
 }
