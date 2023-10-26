@@ -17,6 +17,15 @@ public class CreateProductCommand : IRequest<ProductDto>
     public IFormFile File { get; set; }
 }
 
+public class FileValidation : AbstractValidator<IFormFile>
+{
+    public FileValidation()
+    {
+        RuleFor(x => x.Length).NotNull().LessThanOrEqualTo(100 * 1024).WithMessage("La taille de l'image est trop grande");
+        RuleFor(x => x.ContentType).NotNull().Must(x => x.Equals("image/jpeg") || x.Equals("image/jpg") || x.Equals("image/png")).WithMessage("Le Format du fichier est invalide");
+    }
+}
+
 public class CreateProductValidation : AbstractValidator<CreateProductCommand>
 {
     public CreateProductValidation()
@@ -25,8 +34,7 @@ public class CreateProductValidation : AbstractValidator<CreateProductCommand>
         RuleFor(x => x.Libelle).NotEmpty().WithMessage("Le libelle est obligatoire");
         RuleFor(x => x.Price).NotEmpty().WithMessage("Le prix unitaire du produit est obligatoire").GreaterThanOrEqualTo(0).WithMessage("Le prix unitaire doit etre supérieur à 0");
         RuleFor(x => x.Quantity).NotEmpty().WithMessage("La quantité en stock du produit est obligatoire").GreaterThanOrEqualTo(0).WithMessage("La quantité en stock doit etre supérieur à 0");
-        RuleFor(x => x.File).NotNull().Must(x => x.ContentType.Equals("image/jpeg") || x.ContentType.Equals("image/jpg") || x.ContentType.Equals("image/png"))
-                .WithMessage("Le Format du fichier est invalide");
+        RuleFor(x => x.File).SetValidator(new FileValidation());
     }
 }
 

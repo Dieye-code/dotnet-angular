@@ -24,5 +24,12 @@ namespace API.Controllers
             return Ok(product);
         }
 
+        [HttpPut]
+        public async Task<IActionResult> Update([FromBody] UpdateProductCommand command)
+        {
+            var product = await Mediator.Send(command);
+            return Ok(product);
+        }
+
     }
 }

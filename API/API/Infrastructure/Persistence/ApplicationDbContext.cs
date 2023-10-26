@@ -42,17 +42,17 @@ public class ApplicationDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Product>().HasQueryFilter(c => !c.IsDeleted).HasOne(e => e.Category).WithMany().HasForeignKey("CategoryId").IsRequired(true);
+        modelBuilder.Entity<Product>().HasQueryFilter(c => !c.IsDeleted).HasOne(e => e.Category).WithMany().HasForeignKey("CategoryId").IsRequired(true).OnDelete(DeleteBehavior.NoAction);
 
         modelBuilder.Entity<Category>().HasQueryFilter(c => !c.IsDeleted);
 
         modelBuilder.Entity<Order>().HasQueryFilter(c => !c.IsDeleted).HasMany(e => e.Products).WithOne(e => e.Order).IsRequired(true);
 
-        modelBuilder.Entity<OrderProduct>().HasQueryFilter(c => !c.IsDeleted).HasOne(e => e.Order).WithMany(e => e.Products).HasForeignKey("OrderId").IsRequired(true);
+        modelBuilder.Entity<OrderProduct>().HasQueryFilter(c => !c.IsDeleted).HasOne(e => e.Order).WithMany(e => e.Products).HasForeignKey("OrderId").IsRequired(true).OnDelete(DeleteBehavior.NoAction);
 
         modelBuilder.Entity<Sale>().HasQueryFilter(c => !c.IsDeleted).HasMany(e => e.Products).WithOne(e => e.Sale).IsRequired(true);
 
-        modelBuilder.Entity<SaleProduct>().HasQueryFilter(c => !c.IsDeleted).HasOne(e => e.Sale).WithMany().IsRequired(true);
+        modelBuilder.Entity<SaleProduct>().HasQueryFilter(c => !c.IsDeleted).HasOne(e => e.Sale).WithMany().IsRequired(true).OnDelete(DeleteBehavior.NoAction);
 
         modelBuilder.Entity<User>().HasQueryFilter(c => !c.IsDeleted);
     }
