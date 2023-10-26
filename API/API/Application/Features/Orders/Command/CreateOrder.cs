@@ -17,7 +17,7 @@ public class ProductOrder
 
 public class CreateOrderCommand : IRequest<Result<object>>
 {
-    public string SupplierName { get; set; }
+    public string? SupplierName { get; set; }
     public List<ProductOrder> Products { get; set; } = new List<ProductOrder>();
 
 }
@@ -63,12 +63,17 @@ public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, Res
                 return Result.Failure($"Veuillez verifier la liste des produits à commander");
             }
 
+            if(product.Price <= 0 || product.Quantity <= 0)
+            {
+                return Result.Failure("Veuillez verifier les produits et leur quantité à commander");
+            }
+
             var orderProduct = new OrderProduct()
             {
                 Order = order,
                 Product = p,
-                Price = p.Price,
-                Quantity = p.Quantity,
+                Price = product.Price,
+                Quantity = product.Quantity,
             };
             _orderProductRepository.Create(orderProduct);
         }

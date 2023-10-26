@@ -2,6 +2,7 @@
 using API.Domain.Entities;
 using API.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace API.Infrastructure.Repositories;
 
@@ -22,6 +23,11 @@ public class BaseRepository<T> : IBaseRepository<T> where T : EntityBase
     public void Delete(T entity)
     {
         _context.Remove(entity);
+    }
+
+    public virtual Task<List<T>> FindByQuery(Expression<Func<T, bool>> predicate , CancellationToken cancellationToken)
+    {
+        return _context.Set<T>().Where(predicate).ToListAsync(cancellationToken);
     }
 
     public virtual Task<T> Get(Guid id, CancellationToken cancellationToken)

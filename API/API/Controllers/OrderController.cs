@@ -43,5 +43,19 @@ namespace API.Controllers
             return Ok(result.Value);
         }
 
+        [HttpPut]
+        public async Task<IActionResult> Update(UpdateOrderCommand command)
+        {
+            var result = await Mediator.Send(command);
+            if (result.IsFailure)
+            {
+                if(result.Value.GetType() == typeof(Error))
+                    return NotFound(result.Value);
+                else
+                    return BadRequest(result.Value);
+            }
+            return Ok(result.Value);
+        }
+
     }
 }
