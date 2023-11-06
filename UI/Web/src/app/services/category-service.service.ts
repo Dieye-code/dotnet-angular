@@ -16,6 +16,10 @@ export class CategoryServiceService {
     return this.http.get(this.env.api+"categories");
   }
 
+  addCategory(category: any) : Observable<any>{
+    return this.http.post(this.env.api+"categories",{libelle: category.libelle});
+  }
+
 
   
 
