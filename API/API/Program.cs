@@ -1,4 +1,4 @@
-using API.Application.Common;
+ using API.Application.Common;
 using API.Application.middlewares;
 using API.Application.Repositories;
 using API.Infrastructure.Persistence;
@@ -77,6 +77,13 @@ app.UseStaticFiles(new StaticFileOptions()
 {
     FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "Ressources")),
     RequestPath = new PathString("/ressources/Images")
+});
+
+app.UseCors(options =>
+{
+    options.AllowAnyHeader();
+    options.AllowAnyOrigin();
+    options.AllowAnyMethod();
 });
 
 app.MapControllers();
