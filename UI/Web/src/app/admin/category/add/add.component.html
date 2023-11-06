@@ -1,1 +1,19 @@
-<p>add works!</p>
+
+<div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Enregistrement d'une catégorie</h4>
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <form [formGroup]="form" (ngSubmit)="submit()">
+        <div class="form-group">
+            <label for="libelle" class="form-label">Libelle</label>
+            <input type="text" class="form-control" formControlName="libelle">
+        </div>
+        <div class="form-group mt-3">
+            <input type="submit" value="Enregistrer" class="btn btn-primary mx-3" [disabled]="form.invalid">
+            <input type="submit" value="Annuler" class="btn btn-danger" (click)="reset()">
+        </div>
+    </form>
+</div>
