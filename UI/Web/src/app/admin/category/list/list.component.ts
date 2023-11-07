@@ -26,11 +26,11 @@ export class ListComponent implements OnInit {
 
   openModal() {
     const modalRef = this.modalService.open(AddComponent);
-    modalRef.result.then((result) => {      
+    modalRef.result.then((result) => {
       if (result) {
         this.categoryService.addCategory(result).subscribe(
           data => {
-            this.categories.push(data)
+             this.categories.push(data)
           }
         );
       }
