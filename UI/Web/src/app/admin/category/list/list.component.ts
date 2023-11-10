@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap'
 import { AddComponent } from '../add/add.component';
 import { CategoryServiceService } from 'src/app/services/category-service.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'category-list',
@@ -53,6 +54,29 @@ export class ListComponent implements OnInit {
       }
     }).catch((error) => {
     })
+  }
+
+  delete(category: any) {
+    Swal.fire({
+      title: "Voulez-vous supprimer ce catégorie?",
+      showDenyButton: true,
+      confirmButtonText: "Supprimer",
+      denyButtonText: `Annuler`
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.categoryService.deleteCategory(category).subscribe(
+          (result) => {
+            let indexToUpdate = this.categories.findIndex((item: any) => item.id === category.id);
+            if (indexToUpdate != -1)
+              this.categories.pop(indexToUpdate);
+            Swal.fire("Succés!", "La catégorie a été bien supprimé", "success");
+          },
+          error => {
+            console.log('Error', error);
+          }
+        );
+      }
+    });
   }
 
 }

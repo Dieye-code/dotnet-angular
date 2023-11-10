@@ -24,6 +24,10 @@ export class CategoryServiceService {
     return this.http.put(this.env.api+"categories",{id: category.id, libelle: category.libelle});
   }
 
+  deleteCategory(category: any) : Observable<any>{
+    return this.http.delete(this.env.api+"categories/"+category.id);
+  }
+
 
   
 

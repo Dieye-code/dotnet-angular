@@ -8,7 +8,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./add.component.css']
 })
 export class AddComponent implements OnInit {
-  @Input() public category : any;
+  @Input() public category: any;
   //@Output() private passEntry = new EventEmitter<any>();
 
   form = new FormGroup({
@@ -21,13 +21,18 @@ export class AddComponent implements OnInit {
   constructor(public activeModal: NgbActiveModal) { }
 
   ngOnInit(): void {
-    if(this.category != undefined){
-      this.form.setValue({id: this.category['id'],libelle: this.category['libelle']});
+    if (this.category != undefined) {
+      this.form.setValue({ id: this.category['id'], libelle: this.category['libelle'] });
+    } else {
+      this.category = {
+        id: '',
+        libelle: ''
+      }
     }
-    
+
   }
 
-  submit() {    
+  submit() {
     this.category.libelle = this.form.controls.libelle.value ?? ''
     this.activeModal.close(this.category);
   }

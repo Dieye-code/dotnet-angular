@@ -16,7 +16,12 @@
       <td>{{element.libelle}}</td>
       <td>{{element.createdAt | date:'dd/MM/yyyy' }}</td>
       <td>{{element.updatedAt | date:'dd/MM/yyyy' }}</td>
-      <td class="text-center"> <span class="text-primary pointer" (click)="edit(element)"><i class="bi bi-pen-fill"></i></span> </td>
+      <td class="text-center">
+        <span class="text-primary pointer" (click)="edit(element)"><i class="bi bi-pen-fill"></i>
+        </span>
+        <span class="text-danger pointer mx-2" (click)="delete(element)"><i class="bi bi-trash-fill"></i>
+        </span>
+      </td>
     </tr>
   </tbody>
 </table>
