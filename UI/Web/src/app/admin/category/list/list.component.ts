@@ -30,7 +30,24 @@ export class ListComponent implements OnInit {
       if (result) {
         this.categoryService.addCategory(result).subscribe(
           data => {
-             this.categories.push(data)
+            this.categories.push(data)
+          }
+        );
+      }
+    }).catch((error) => {
+    })
+  }
+
+  edit(category: any) {
+    const modalRef = this.modalService.open(AddComponent);
+    modalRef.componentInstance.category = category;
+    modalRef.result.then((result) => {
+      if (result) {
+        this.categoryService.editCategory(result).subscribe(
+          data => {
+            let indexToUpdate = this.categories.findIndex((item: any) => item.id === data.id);
+            this.categories[indexToUpdate] = data;
+            this.categories = Object.assign([], this.categories);
           }
         );
       }

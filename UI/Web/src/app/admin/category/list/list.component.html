@@ -1,22 +1,22 @@
 <h1>Liste ds categories</h1>
 <div class="d-flex justify-content-end mb-3">
-    <button  class="btn btn-primary" (click)="openModal()">Add Category</button>
+  <button class="btn btn-primary" (click)="openModal()">Add Category</button>
 </div>
 <table class="table table-bordered">
-    <thead>
-       <tr>
-         <th scope="col">Libelle</th>
-         <th scope="col">Date Création</th>
-         <th scope="col">Dernier modification</th>
-         <th scope="col">Action</th>
-       </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let element of categories" >
-        <td>{{element.libelle}}</td>
-        <td>{{element.createdAt | date:'dd/MM/yyyy' }}</td>
-        <td>{{element.updatedAt | date:'dd/MM/yyyy' }}</td>
-        <td>Edit</td>
-      </tr>
-    </tbody>
-   </table>
+  <thead>
+    <tr>
+      <th scope="col">Libelle</th>
+      <th scope="col">Date Création</th>
+      <th scope="col">Dernier modification</th>
+      <th scope="col">Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let element of categories">
+      <td>{{element.libelle}}</td>
+      <td>{{element.createdAt | date:'dd/MM/yyyy' }}</td>
+      <td>{{element.updatedAt | date:'dd/MM/yyyy' }}</td>
+      <td class="text-center"> <span class="text-primary pointer" (click)="edit(element)"><i class="bi bi-pen-fill"></i></span> </td>
+    </tr>
+  </tbody>
+</table>

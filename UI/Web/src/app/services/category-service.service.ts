@@ -20,6 +20,10 @@ export class CategoryServiceService {
     return this.http.post(this.env.api+"categories",{libelle: category.libelle});
   }
 
+  editCategory(category: any) : Observable<any>{
+    return this.http.put(this.env.api+"categories",{id: category.id, libelle: category.libelle});
+  }
+
 
   
 
