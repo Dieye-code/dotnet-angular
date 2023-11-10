@@ -1,17 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap'
 import { AddComponent } from '../add/add.component';
 import { CategoryServiceService } from 'src/app/services/category-service.service';
 import Swal from 'sweetalert2';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'category-list',
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.css']
 })
-export class ListComponent implements OnInit {
+export class ListComponent implements OnInit, OnDestroy {
 
   public categories: any = [];
+  private addCategorySubscribe? : Subscription;
+  private editCategorySubscribe? : Subscription;
+  private deleteCategorySubscribe? : Subscription;
 
   constructor(private modalService: NgbModal, private categoryService: CategoryServiceService) { }
   ngOnInit(): void {
@@ -29,7 +33,7 @@ export class ListComponent implements OnInit {
     const modalRef = this.modalService.open(AddComponent);
     modalRef.result.then((result) => {
       if (result) {
-        this.categoryService.addCategory(result).subscribe(
+        this.addCategorySubscribe = this.categoryService.addCategory(result).subscribe(
           data => {
             this.categories.push(data)
           }
@@ -44,7 +48,7 @@ export class ListComponent implements OnInit {
     modalRef.componentInstance.category = category;
     modalRef.result.then((result) => {
       if (result) {
-        this.categoryService.editCategory(result).subscribe(
+        this.editCategorySubscribe = this.categoryService.editCategory(result).subscribe(
           data => {
             let indexToUpdate = this.categories.findIndex((item: any) => item.id === data.id);
             this.categories[indexToUpdate] = data;
@@ -64,7 +68,7 @@ export class ListComponent implements OnInit {
       denyButtonText: `Annuler`
     }).then((result) => {
       if (result.isConfirmed) {
-        this.categoryService.deleteCategory(category).subscribe(
+        this.deleteCategorySubscribe = this.categoryService.deleteCategory(category).subscribe(
           (result) => {
             let indexToUpdate = this.categories.findIndex((item: any) => item.id === category.id);
             if (indexToUpdate != -1)
@@ -77,6 +81,11 @@ export class ListComponent implements OnInit {
         );
       }
     });
+  }
+  ngOnDestroy(): void {
+    this.addCategorySubscribe?.unsubscribe;
+    this.editCategorySubscribe?.unsubscribe;
+    this.deleteCategorySubscribe?.unsubscribe;
   }
 
 }
