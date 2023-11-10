@@ -23,5 +23,8 @@
         </span>
       </td>
     </tr>
+    <tr *ngIf="categories.length == 0">
+    <td colspan="4" class="fst-italic">Pas de categories au nieavu de la abse de données</td>
+    </tr>
   </tbody>
 </table>
