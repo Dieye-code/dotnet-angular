@@ -3,7 +3,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap'
 import { AddComponent } from '../add/add.component';
 import { CategoryServiceService } from 'src/app/services/category-service.service';
 import Swal from 'sweetalert2';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'category-list',
@@ -17,9 +17,12 @@ export class ListComponent implements OnInit, OnDestroy {
   private editCategorySubscribe? : Subscription;
   private deleteCategorySubscribe? : Subscription;
 
+  categors$?: Observable<[]>;
+
   constructor(private modalService: NgbModal, private categoryService: CategoryServiceService) { }
   ngOnInit(): void {
 
+    this.categors$ = this.categoryService.getCategories();
     this.categoryService.getCategories().subscribe(
       data => {
         data.forEach((element: any) => {
