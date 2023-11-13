@@ -75,8 +75,8 @@ app.UseAuthorization();
 app.UseStaticFiles();
 app.UseStaticFiles(new StaticFileOptions()
 {
-    FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "Ressources")),
-    RequestPath = new PathString("/ressources/Images")
+    FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "Images")),
+    RequestPath = new PathString("/ressources")
 });
 
 app.UseCors(options =>
