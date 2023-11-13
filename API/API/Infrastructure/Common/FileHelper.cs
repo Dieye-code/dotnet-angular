@@ -35,7 +35,7 @@ public static class FileHelper
     public static string GetFilePath(string fileName)
     {
         var _GetStaticContentDirectory = GetStaticContentDirectory();
-        var result = Path.Combine(GetRelativeDirectory(), fileName);
+        var result = Path.Combine( fileName);
         return result;
     }
 
