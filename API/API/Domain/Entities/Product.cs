@@ -5,7 +5,8 @@ namespace API.Domain.Entities;
 public class Product : EntityBase
 {
     public string Libelle { get; set; } = string.Empty;
-    public string Photo { get; set; } = string.Empty;
+    public string PhotoUrl { get; set; } = string.Empty;
+    public string PhotoLocation { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
     public int Price { get; set; }
     public double Quantity { get; set; }

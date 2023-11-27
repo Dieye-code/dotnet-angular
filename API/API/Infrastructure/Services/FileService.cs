@@ -6,24 +6,6 @@ namespace API.Infrastructure.Services;
 
 public class FileService : IFileService
 {
-    public async Task<(byte[], string, string)> DownloadFile(string fileName)
-    {
-        try
-        {
-            var _GetFilePath = FileHelper.GetFilePath(fileName);
-            var provider = new FileExtensionContentTypeProvider();
-            if (!provider.TryGetContentType(_GetFilePath, out var _ContentType))
-            {
-                _ContentType = "application/octet-stream";
-            }
-            var _ReadAllBytesAsync = await File.ReadAllBytesAsync(_GetFilePath);
-            return (_ReadAllBytesAsync, _ContentType, Path.GetFileName(_GetFilePath));
-        }
-        catch (Exception )
-        {
-            throw ;
-        }
-    }
 
     public async Task<string> UploadFile(IFormFile file)
     {
@@ -37,11 +19,11 @@ public class FileService : IFileService
             {
                 await file.CopyToAsync(_FileStream);
             }
-            return FileName;
+            return FileHelper.GetRelativeFileUrl(FileName);
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-            throw;
+            throw ex;
         }
     }
 }

@@ -2,6 +2,7 @@
 using API.Application.Repositories;
 using API.Domain.Common;
 using API.Domain.Entities;
+using API.Infrastructure.Common;
 using API.Models;
 using CSharpFunctionalExtensions;
 using FluentValidation;
@@ -63,12 +64,14 @@ public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand,
             return Errors.General.NotFound(nameof(Category), request.CategoryId);
         }
         var fileName = await _fileService.UploadFile(request.File);
+
         var product = new Product()
         {
             CategoryId = request.CategoryId,
             Libelle = request.Libelle,
             Description = request.Description,
-            Photo = fileName,
+            PhotoUrl = fileName,
+            PhotoLocation = fileName.Replace("/","\\"),
             Price = request.Price,
             Quantity = request.Quantity,
         };
