@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "/5P/wbZr/vp6UtYihJ7wc8Bxz1HVvf3E8MYlBM/y1xJx+sedOZQZ/aJpAXIQAfhw7zigROQn0Oj/iSeYs91lRQ==",
+  "dgSpecHash": "Rfs8b7HZAxV+jLdIdQ8aDp/0sVWvsw7SyxDg+aX5Xd2e8oPC3QAhAeZGDxZNwsFjVEe7vetuHpYozCRismd06w==",
   "success": true,
-  "projectFilePath": "C:\\Users\\moust\\Documents\\dot-angular\\API\\API\\API.csproj",
+  "projectFilePath": "C:\\Users\\moust\\Documents\\asp\\dotnet-angular\\API\\API\\API.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\moust\\.nuget\\packages\\azure.core\\1.25.0\\azure.core.1.25.0.nupkg.sha512",
     "C:\\Users\\moust\\.nuget\\packages\\azure.identity\\1.7.0\\azure.identity.1.7.0.nupkg.sha512",
